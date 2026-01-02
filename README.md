@@ -11,6 +11,10 @@
   <strong>The Premium UI Kit for 2026 • Alternative to Liquid UI for Lower macOS Versions</strong>
 </p>
 
+<p align="center">
+  <img src="Assets/demo.gif" alt="LuxeUI Demo" width="600">
+</p>
+
 A beautiful, production-ready SwiftUI component library featuring the most advanced UI effects of 2026. LuxeUI brings premium design to macOS 12+ and iOS 15+, making cutting-edge UI accessible to everyone.
 
 ##  Why LuxeUI?
