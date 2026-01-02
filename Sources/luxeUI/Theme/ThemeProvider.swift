@@ -2,10 +2,30 @@ import SwiftUI
 
 // MARK: - Theme Provider Configuration
 
+/// Configuration options for the theme provider component.
+///
+/// `ThemeProviderConfiguration` controls how themes are applied and
+/// animated when switching between themes.
+///
+/// ## Presets
+/// - `default`: Animated theme transitions (0.3s)
+/// - `instant`: No animation, immediate theme changes
+/// - `smooth`: Slower animation (0.5s) for dramatic transitions
+///
+/// ## Example
+/// ```swift
+/// ThemeProvider(configuration: .smooth) {
+///     ContentView()
+/// }
+/// ```
 public struct ThemeProviderConfiguration: Sendable {
+    /// The theme to provide to children. Default: .default
     public var theme: Theme
+    /// Whether theme changes should animate. Default: true
     public var animated: Bool
+    /// Duration of theme transition animation. Default: 0.3
     public var animationDuration: Double
+    /// Whether theme propagates to all children. Default: true
     public var propagateToChildren: Bool
     
     public init(
@@ -22,10 +42,13 @@ public struct ThemeProviderConfiguration: Sendable {
     
     // MARK: - Presets
     
+    /// Default configuration with animated transitions.
     public static let `default` = ThemeProviderConfiguration()
     
+    /// Instant theme changes with no animation.
     public static let instant = ThemeProviderConfiguration(animated: false)
     
+    /// Smooth transitions with longer animation duration.
     public static let smooth = ThemeProviderConfiguration(
         animationDuration: 0.5
     )
@@ -33,7 +56,37 @@ public struct ThemeProviderConfiguration: Sendable {
 
 // MARK: - Theme Provider
 
-/// A container view that provides theme context to its children
+/// A container view that provides theme context to its children.
+///
+/// `ThemeProvider` wraps content and injects a theme into the environment,
+/// with optional animated transitions between themes.
+///
+/// ## Features
+/// - **Environment Injection**: Theme flows to all child views
+/// - **Animated Transitions**: Smooth theme switching
+/// - **Modifier Chain**: Fluent API for configuration
+///
+/// ## Example
+/// ```swift
+/// // Basic usage
+/// ThemeProvider(theme: .midnight) {
+///     ContentView()
+/// }
+///
+/// // With configuration
+/// ThemeProvider(configuration: .smooth) {
+///     ContentView()
+/// }
+///     .theme(.ocean)
+///
+/// // Modifier chain
+/// ThemeProvider {
+///     ContentView()
+/// }
+///     .theme(.sunset)
+///     .animated(true)
+///     .animationDuration(0.4)
+/// ```
 public struct ThemeProvider<Content: View>: View {
     private var configuration: ThemeProviderConfiguration
     private let content: Content
@@ -89,7 +142,26 @@ public struct ThemeProvider<Content: View>: View {
 
 // MARK: - Dynamic Theme Provider
 
-/// A theme provider that can switch between themes dynamically
+/// A theme provider that supports reactive theme switching via a binding.
+///
+/// `DynamicThemeProvider` is ideal for apps that allow users to change
+/// themes at runtime, as it responds to binding changes automatically.
+///
+/// ## Example
+/// ```swift
+/// struct SettingsView: View {
+///     @State var theme = Theme.midnight
+///
+///     var body: some View {
+///         DynamicThemeProvider(theme: $theme) {
+///             VStack {
+///                 ContentView()
+///                 ThemePicker(selection: $themePreset)
+///             }
+///         }
+///     }
+/// }
+/// ```
 public struct DynamicThemeProvider<Content: View>: View {
     @Binding private var currentTheme: Theme
     private var animated: Bool
@@ -120,6 +192,24 @@ public struct DynamicThemeProvider<Content: View>: View {
 
 // MARK: - Theme Picker
 
+/// A horizontal picker for selecting theme presets.
+///
+/// `ThemePicker` displays all available theme presets as colored buttons,
+/// allowing users to switch themes visually.
+///
+/// ## Features
+/// - **Visual Preview**: Shows primary color for each theme
+/// - **Selection Indicator**: Ring around selected theme
+/// - **Optional Labels**: Theme names below buttons
+/// - **Horizontal Scroll**: Scrollable when many themes
+///
+/// ## Example
+/// ```swift
+/// @State var preset: ThemePreset = .default
+///
+/// ThemePicker(selection: $preset)
+///     .padding()
+/// ```
 public struct ThemePicker: View {
     @Binding private var selectedPreset: ThemePreset
     private var showLabels: Bool

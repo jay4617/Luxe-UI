@@ -2,24 +2,69 @@ import SwiftUI
 
 // MARK: - Multi-Thumb Slider Configuration
 
+/// Configuration options for the multi-thumb range slider.
+///
+/// `MultiThumbSliderConfiguration` controls the appearance and behavior of
+/// the range slider, including track styling, thumb appearance, labels,
+/// and haptic feedback.
+///
+/// ## Overview
+/// The multi-thumb slider allows users to select a range with two or more
+/// draggable thumbs. Customize:
+/// - **Track**: Height, colors, and active range highlighting
+/// - **Thumbs**: Size, color, border, and shadow
+/// - **Labels**: Value labels above each thumb
+/// - **Haptics**: Feedback on value changes and boundaries
+///
+/// ## Presets
+/// - `default`: Balanced appearance for most use cases
+/// - `compact`: Smaller track and thumbs for tight spaces
+/// - `large`: Bigger thumbs for touch-friendly interfaces
+/// - `minimal`: Very thin track, no labels or borders
+/// - `vibrant`: Colorful gradient with cyan/purple colors
+///
+/// ## Example
+/// ```swift
+/// @State var range = [20.0, 80.0]
+///
+/// MultiThumbSlider(values: $range, configuration: .vibrant)
+/// ```
 public struct MultiThumbSliderConfiguration: Sendable {
+    /// The height of the track. Default: 6
     public var trackHeight: CGFloat
+    /// The diameter of the thumb circles. Default: 24
     public var thumbSize: CGFloat
+    /// The color of the inactive track. Default: .gray
     public var trackColor: Color
+    /// The opacity of the inactive track. Default: 0.3
     public var trackOpacity: Double
+    /// Colors for the active (selected) range gradient. Default: [.blue, .purple]
     public var activeTrackColors: [Color]
+    /// The fill color of the thumbs. Default: .white
     public var thumbColor: Color
+    /// The border color of the thumbs. Default: .blue
     public var thumbBorderColor: Color
+    /// The border width of the thumbs. Default: 2
     public var thumbBorderWidth: CGFloat
+    /// The shadow color behind the thumbs. Default: .black
     public var thumbShadowColor: Color
+    /// The shadow blur radius. Default: 4
     public var thumbShadowRadius: CGFloat
+    /// Whether to show value labels above thumbs. Default: true
     public var showLabels: Bool
+    /// The font size for value labels. Default: 12
     public var labelFontSize: CGFloat
+    /// The color of value labels. Default: .white
     public var labelColor: Color
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
+    /// Whether to trigger haptics on every value change. Default: false
     public var hapticOnChange: Bool
+    /// Whether to trigger haptics at range boundaries. Default: true
     public var hapticOnBoundary: Bool
+    /// The spring animation response speed. Default: 0.2
     public var animationResponse: Double
+    /// The spring animation damping ratio. Default: 0.8
     public var animationDamping: Double
     
     public init(
@@ -63,8 +108,12 @@ public struct MultiThumbSliderConfiguration: Sendable {
     }
     
     // Presets
+    
+    /// Default balanced configuration for most use cases.
     public static let `default` = MultiThumbSliderConfiguration()
     
+    /// Compact configuration with smaller track and thumbs.
+    /// Ideal for tight UI spaces.
     public static let compact = MultiThumbSliderConfiguration(
         trackHeight: 4,
         thumbSize: 18,
@@ -72,6 +121,8 @@ public struct MultiThumbSliderConfiguration: Sendable {
         labelFontSize: 10
     )
     
+    /// Large configuration with bigger thumbs and track.
+    /// Better for touch-friendly interfaces.
     public static let large = MultiThumbSliderConfiguration(
         trackHeight: 8,
         thumbSize: 32,
@@ -79,6 +130,8 @@ public struct MultiThumbSliderConfiguration: Sendable {
         labelFontSize: 14
     )
     
+    /// Minimal configuration with thin track and no labels.
+    /// Clean, understated appearance.
     public static let minimal = MultiThumbSliderConfiguration(
         trackHeight: 2,
         thumbSize: 16,
@@ -86,6 +139,8 @@ public struct MultiThumbSliderConfiguration: Sendable {
         showLabels: false
     )
     
+    /// Vibrant configuration with colorful gradient and glow.
+    /// Eye-catching, premium appearance.
     public static let vibrant = MultiThumbSliderConfiguration(
         trackHeight: 6,
         thumbSize: 26,
@@ -97,6 +152,58 @@ public struct MultiThumbSliderConfiguration: Sendable {
 
 // MARK: - Multi-Thumb Slider
 
+/// A range slider with multiple draggable thumbs for selecting value ranges.
+///
+/// `MultiThumbSlider` allows users to select a range by dragging two or more
+/// thumb controls along a track. The active range between thumbs is highlighted
+/// with a gradient.
+///
+/// ## Features
+/// - **Multiple Thumbs**: Support for 2+ thumbs to define complex ranges
+/// - **Gradient Track**: Active range highlighted with customizable gradient
+/// - **Value Labels**: Optional labels showing current values above thumbs
+/// - **Haptic Feedback**: Tactile feedback on drag and boundary hits
+/// - **Step Values**: Snap to discrete step increments
+/// - **Smooth Animation**: Spring-based thumb movement
+/// - **Callbacks**: Handlers for drag start, change, and end events
+///
+/// ## Example
+/// ```swift
+/// @State var priceRange = [100.0, 500.0]
+///
+/// // Basic usage
+/// MultiThumbSlider(values: $priceRange, range: 0...1000)
+///
+/// // With configuration
+/// MultiThumbSlider(
+///     values: $priceRange,
+///     range: 0...1000,
+///     step: 50,
+///     configuration: .vibrant
+/// )
+///
+/// // Convenience parameters
+/// MultiThumbSlider(
+///     values: $priceRange,
+///     range: 0...1000,
+///     showLabels: true,
+///     colors: [.green, .blue]
+/// )
+/// ```
+///
+/// ## Callbacks
+/// ```swift
+/// MultiThumbSlider(values: $range)
+///     .onValueChange { newValues in
+///         print("Range: \(newValues[0]) - \(newValues[1])")
+///     }
+///     .onDragStart { thumbIndex in
+///         print("Started dragging thumb \(thumbIndex)")
+///     }
+///     .onDragEnd { thumbIndex in
+///         print("Stopped dragging thumb \(thumbIndex)")
+///     }
+/// ```
 public struct MultiThumbSlider: View {
     @Binding private var values: [Double]
     private let range: ClosedRange<Double>

@@ -2,20 +2,67 @@ import SwiftUI
 
 // MARK: - LuxeCard Configuration
 
+/// Configuration options for LuxeCard appearance and behavior.
+///
+/// `LuxeCardConfiguration` provides complete control over the visual appearance and interactive
+/// behavior of LuxeCard components. Use presets for quick styling or customize individual properties.
+///
+/// ## Overview
+/// LuxeCard is a premium floating glass card with hover effects, press animations, and haptic feedback.
+/// It creates a modern, elevated UI element perfect for dashboards, profiles, and content showcases.
+///
+/// ## Presets
+/// - `default`: Balanced settings suitable for most use cases
+/// - `compact`: Smaller radius and subtle effects for dense layouts
+/// - `prominent`: Large, bold appearance with stronger shadows
+/// - `subtle`: Minimal, understated styling
+/// - `floating`: Maximum elevation with deep shadows
+///
+/// ## Example
+/// ```swift
+/// // Using a preset
+/// LuxeCard(configuration: .prominent) {
+///     Text("Premium Content")
+/// }
+///
+/// // Custom configuration
+/// let config = LuxeCardConfiguration(
+///     cornerRadius: 24,
+///     hoverScale: 1.05,
+///     enableHaptics: true
+/// )
+/// LuxeCard(configuration: config) {
+///     Text("Custom Card")
+/// }
+/// ```
 public struct LuxeCardConfiguration: Sendable {
+    /// The corner radius of the card. Default: 20
     public var cornerRadius: CGFloat
+    /// The blur radius for the glass effect background. Default: 10
     public var blur: CGFloat
+    /// The opacity of the card's background fill. Default: 0.15
     public var backgroundOpacity: Double
+    /// The width of the card's border stroke. Default: 1
     public var borderWidth: CGFloat
+    /// The opacity of the border gradient. Default: 0.3
     public var borderOpacity: Double
+    /// The color of the card's drop shadow. Default: .black
     public var shadowColor: Color
+    /// The blur radius of the shadow. Default: 20
     public var shadowRadius: CGFloat
+    /// The horizontal offset of the shadow. Default: 0
     public var shadowX: CGFloat
+    /// The vertical offset of the shadow. Default: 10
     public var shadowY: CGFloat
+    /// The scale factor when the card is hovered. Default: 1.02
     public var hoverScale: CGFloat
+    /// The scale factor when the card is pressed. Default: 0.98
     public var pressScale: CGFloat
+    /// The spring animation response time in seconds. Default: 0.3
     public var animationResponse: Double
+    /// The spring animation damping fraction. Default: 0.7
     public var animationDamping: Double
+    /// Whether to trigger haptic feedback on interactions. Default: true
     public var enableHaptics: Bool
     
     public init(
@@ -88,6 +135,43 @@ public struct LuxeCardConfiguration: Sendable {
 
 // MARK: - LuxeCard
 
+/// A premium floating glass card with hover effects, press animations, and haptic feedback.
+///
+/// `LuxeCard` is a versatile container component that creates a modern, elevated UI element
+/// with glassmorphic styling. It automatically responds to user interactions with smooth
+/// scale animations and optional haptic feedback.
+///
+/// ## Features
+/// - **Glass Effect**: Frosted glass background with customizable blur and opacity
+/// - **Hover Animation**: Scales up smoothly when the user hovers (macOS) or long-presses
+/// - **Press Animation**: Scales down when pressed for tactile feedback
+/// - **Gradient Border**: Subtle gradient stroke that adds depth
+/// - **Drop Shadow**: Configurable shadow for floating appearance
+/// - **Haptic Feedback**: Optional haptic response on interactions (iOS/macOS)
+///
+/// ## Example
+/// ```swift
+/// LuxeCard {
+///     VStack(spacing: 12) {
+///         Image(systemName: "star.fill")
+///             .font(.largeTitle)
+///             .foregroundColor(.yellow)
+///         Text("Premium Feature")
+///             .font(.headline)
+///     }
+///     .padding()
+/// }
+/// .onTap { print("Card tapped!") }
+/// .onHoverStart { print("Hover began") }
+/// ```
+///
+/// ## Customization
+/// Use `LuxeCardConfiguration` presets or create custom configurations:
+/// ```swift
+/// LuxeCard(configuration: .prominent) {
+///     // Content
+/// }
+/// ```
 public struct LuxeCard<Content: View>: View {
     private let content: Content
     private var configuration: LuxeCardConfiguration
@@ -249,17 +333,49 @@ public struct LuxeCard<Content: View>: View {
 
 // MARK: - LuxeButton Configuration
 
+/// Configuration options for LuxeButton appearance and behavior.
+///
+/// `LuxeButtonConfiguration` controls the size, styling, and interaction feedback of LuxeButton.
+/// Use size presets for quick sizing or customize individual properties.
+///
+/// ## Overview
+/// LuxeButton is a premium button with gradient backgrounds, press animations, and haptic feedback.
+/// It supports multiple visual styles and can be fully customized.
+///
+/// ## Presets
+/// - `small`: Compact button for toolbars and dense layouts
+/// - `medium`: Standard size, suitable for most use cases (default)
+/// - `large`: Prominent button for primary actions
+/// - `extraLarge`: Hero-sized button for landing pages
+///
+/// ## Example
+/// ```swift
+/// LuxeButton("Get Started", style: .primary, configuration: .large) {
+///     print("Button tapped!")
+/// }
+/// ```
 public struct LuxeButtonConfiguration: Sendable {
+    /// The corner radius of the button. Default: 12
     public var cornerRadius: CGFloat
+    /// The font size of the button text. Default: 16
     public var fontSize: CGFloat
+    /// The font weight of the button text. Default: .semibold
     public var fontWeight: Font.Weight
+    /// The horizontal padding inside the button. Default: 24
     public var paddingHorizontal: CGFloat
+    /// The vertical padding inside the button. Default: 12
     public var paddingVertical: CGFloat
+    /// The blur radius of the button's shadow. Default: 10
     public var shadowRadius: CGFloat
+    /// The scale factor when the button is pressed. Default: 0.95
     public var pressScale: CGFloat
+    /// The spring animation response time. Default: 0.2
     public var animationResponse: Double
+    /// The spring animation damping fraction. Default: 0.7
     public var animationDamping: Double
+    /// Whether to trigger haptic feedback on tap. Default: true
     public var enableHaptics: Bool
+    /// The intensity of haptic feedback. Default: .medium
     public var hapticIntensity: TactileFeedback.Intensity
     
     public init(
@@ -317,10 +433,21 @@ public struct LuxeButtonConfiguration: Sendable {
     )
 }
 
+/// The visual style of a LuxeButton.
+///
+/// ## Styles
+/// - `primary`: Gradient background using theme's primary and accent colors. Best for main CTAs.
+/// - `secondary`: Uses theme's secondary color. For secondary actions.
+/// - `glass`: Frosted glass effect with translucent background. Elegant, subtle appearance.
+/// - `custom`: Define your own gradient colors, foreground, and shadow.
 public enum LuxeButtonStyle: Sendable {
+    /// Gradient background using theme's primary and accent colors
     case primary
+    /// Uses theme's secondary color for a less prominent appearance
     case secondary
+    /// Frosted glass effect with translucent material background
     case glass
+    /// Custom styling with user-defined colors
     case custom(
         background: [Color],
         foreground: Color,
@@ -328,6 +455,40 @@ public enum LuxeButtonStyle: Sendable {
     )
 }
 
+/// A premium button with gradient backgrounds, press animations, and haptic feedback.
+///
+/// `LuxeButton` is a versatile button component that automatically styles itself based on the
+/// current theme. It provides smooth press animations and optional haptic feedback for a
+/// polished, premium feel.
+///
+/// ## Features
+/// - **Multiple Styles**: Primary, secondary, glass, or fully custom
+/// - **Press Animation**: Smooth scale-down effect when pressed
+/// - **Gradient Background**: Beautiful color transitions using theme colors
+/// - **Haptic Feedback**: Configurable tactile response on tap
+/// - **Theme Integration**: Automatically uses colors from the active LuxeUI theme
+///
+/// ## Example
+/// ```swift
+/// // Primary button
+/// LuxeButton("Get Started", style: .primary) {
+///     startOnboarding()
+/// }
+///
+/// // Glass style button
+/// LuxeButton("Learn More", style: .glass) {
+///     showDetails()
+/// }
+///
+/// // Custom colors
+/// LuxeButton("Delete", style: .custom(
+///     background: [.red, .orange],
+///     foreground: .white,
+///     shadowColor: .red
+/// )) {
+///     deleteItem()
+/// }
+/// ```
 public struct LuxeButton: View {
     private let title: String
     private let style: LuxeButtonStyle
@@ -491,15 +652,43 @@ public struct LuxeButton: View {
 
 // MARK: - LuxeBadge Configuration
 
+/// Configuration options for LuxeBadge appearance.
+///
+/// `LuxeBadgeConfiguration` controls the size, typography, and glow effects of badges.
+///
+/// ## Overview
+/// LuxeBadge is a small label component with an optional glowing effect, perfect for
+/// status indicators, tags, and notification counts.
+///
+/// ## Presets
+/// - `default`: Standard badge with glow effect
+/// - `small`: Compact badge for tight spaces
+/// - `large`: Prominent badge for emphasis
+/// - `noGlow`: Badge without the glow effect
+///
+/// ## Example
+/// ```swift
+/// LuxeBadge("NEW", color: .green, configuration: .default)
+/// LuxeBadge("PRO", color: .purple, configuration: .large)
+/// ```
 public struct LuxeBadgeConfiguration: Sendable {
+    /// The font size of the badge text. Default: 10
     public var fontSize: CGFloat
+    /// The font weight of the badge text. Default: .bold
     public var fontWeight: Font.Weight
+    /// The horizontal padding inside the badge. Default: 12
     public var paddingHorizontal: CGFloat
+    /// The vertical padding inside the badge. Default: 6
     public var paddingVertical: CGFloat
+    /// The corner radius (uses capsule shape). Default: 20
     public var cornerRadius: CGFloat
+    /// The opacity of the badge's background fill. Default: 0.2
     public var backgroundOpacity: Double
+    /// The blur radius of the glow effect. Default: 8
     public var glowRadius: CGFloat
+    /// The opacity of the glow effect. Default: 0.5
     public var glowOpacity: Double
+    /// Whether to show the glow effect. Default: true
     public var enableGlow: Bool
     
     public init(
@@ -524,12 +713,38 @@ public struct LuxeBadgeConfiguration: Sendable {
         self.enableGlow = enableGlow
     }
     
+    /// Standard badge with glow effect
     public static let `default` = LuxeBadgeConfiguration()
+    /// Compact badge for tight spaces
     public static let small = LuxeBadgeConfiguration(fontSize: 8, paddingHorizontal: 8, paddingVertical: 4)
+    /// Prominent badge for emphasis
     public static let large = LuxeBadgeConfiguration(fontSize: 12, paddingHorizontal: 16, paddingVertical: 8)
+    /// Badge without the glow effect
     public static let noGlow = LuxeBadgeConfiguration(enableGlow: false)
 }
 
+/// A small glowing label for status indicators, tags, and notification counts.
+///
+/// `LuxeBadge` displays text in a pill-shaped container with an optional glow effect.
+/// It's perfect for drawing attention to new features, status indicators, or counts.
+///
+/// ## Features
+/// - **Glow Effect**: Optional colored glow for emphasis
+/// - **Pill Shape**: Automatic capsule shape with configurable padding
+/// - **Color Customization**: Badge adopts the color you specify
+/// - **Multiple Sizes**: Small, default, and large presets
+///
+/// ## Example
+/// ```swift
+/// // Status badge
+/// LuxeBadge("LIVE", color: .green)
+///
+/// // Feature badge
+/// LuxeBadge("NEW", color: .blue, configuration: .large)
+///
+/// // Subtle badge without glow
+/// LuxeBadge("BETA", color: .orange, configuration: .noGlow)
+/// ```
 public struct LuxeBadge: View {
     private let text: String
     private let color: Color
@@ -568,13 +783,38 @@ public struct LuxeBadge: View {
 
 // MARK: - FloatingOrb Configuration
 
+/// Configuration options for FloatingOrb appearance and animation.
+///
+/// `FloatingOrbConfiguration` controls the blur, opacity, and floating animation of orbs.
+///
+/// ## Overview
+/// FloatingOrb creates ambient, glowing circular elements that add depth and atmosphere
+/// to backgrounds. They work beautifully with MeshGradientBackground.
+///
+/// ## Presets
+/// - `default`: Standard animated orb with glow
+/// - `subtle`: Softer appearance with minimal movement
+/// - `vibrant`: Brighter, more dynamic movement
+/// - `static`: No animation, fixed position
+///
+/// ## Example
+/// ```swift
+/// FloatingOrb(size: 200, color: .purple, configuration: .vibrant)
+/// ```
 public struct FloatingOrbConfiguration: Sendable {
+    /// The blur radius applied to the orb. Higher = softer. Default: 60
     public var blurRadius: CGFloat
+    /// The opacity of the orb. Default: 0.6
     public var opacity: Double
+    /// The duration of one complete float cycle in seconds. Default: 4
     public var animationDuration: Double
+    /// The vertical distance the orb floats. Default: 20
     public var animationRange: CGFloat
+    /// Whether the floating animation is enabled. Default: true
     public var enableAnimation: Bool
+    /// Whether to show the glow effect. Default: true
     public var enableGlow: Bool
+    /// The blur radius of the glow shadow. Default: 50
     public var glowRadius: CGFloat
     
     public init(
@@ -595,12 +835,38 @@ public struct FloatingOrbConfiguration: Sendable {
         self.glowRadius = glowRadius
     }
     
+    /// Standard animated orb with glow
     public static let `default` = FloatingOrbConfiguration()
+    /// Softer appearance with minimal movement
     public static let subtle = FloatingOrbConfiguration(blurRadius: 80, opacity: 0.4, animationRange: 10)
+    /// Brighter, more dynamic movement
     public static let vibrant = FloatingOrbConfiguration(blurRadius: 40, opacity: 0.8, animationRange: 30)
+    /// No animation, fixed position
     public static let `static` = FloatingOrbConfiguration(enableAnimation: false)
 }
 
+/// An animated glowing orb for atmospheric background effects.
+///
+/// `FloatingOrb` creates a soft, circular glow that gently floats up and down.
+/// Multiple orbs can be layered to create rich, dynamic backgrounds similar
+/// to the mesh gradient effects in macOS.
+///
+/// ## Features
+/// - **Radial Gradient**: Smooth color-to-transparent fade
+/// - **Blur Effect**: Configurable softness for ambient glow
+/// - **Float Animation**: Gentle up-and-down movement
+/// - **Glow Shadow**: Additional depth with colored shadow
+///
+/// ## Example
+/// ```swift
+/// ZStack {
+///     Color.black
+///     FloatingOrb(size: 300, color: .purple)
+///         .offset(x: -100, y: -150)
+///     FloatingOrb(size: 250, color: .blue)
+///         .offset(x: 100, y: 100)
+/// }
+/// ```
 public struct FloatingOrb: View {
     private let size: CGFloat
     private let color: Color
@@ -651,15 +917,47 @@ public struct FloatingOrb: View {
 
 // MARK: - MeshGradientBackground Configuration
 
+/// Configuration options for MeshGradientBackground appearance and animation.
+///
+/// `MeshGradientConfiguration` controls the orb count, sizes, positions, and animation
+/// of the mesh gradient effect.
+///
+/// ## Overview
+/// MeshGradientBackground creates beautiful, animated gradient backgrounds similar to
+/// the mesh gradients in macOS 15. Multiple colored orbs blend together to create
+/// a rich, dynamic backdrop.
+///
+/// ## Presets
+/// - `default`: Three orbs with balanced animation
+/// - `minimal`: Two orbs for a cleaner look
+/// - `vibrant`: Five orbs with dynamic movement
+/// - `static`: No animation, fixed gradient
+///
+/// ## Example
+/// ```swift
+/// MeshGradientBackground(
+///     colors: [.purple, .blue, .cyan],
+///     configuration: .vibrant
+/// )
+/// ```
 public struct MeshGradientConfiguration: Sendable {
+    /// The number of color orbs to display. Default: 3
     public var orbCount: Int
+    /// The sizes of each orb in order. Default: [400, 350, 300]
     public var orbSizes: [CGFloat]
+    /// The x,y offset positions for each orb. Default varies
     public var orbOffsets: [(x: CGFloat, y: CGFloat)]
+    /// The blur radius applied to all orbs. Default: 100
     public var orbBlur: CGFloat
+    /// The opacity of the orbs. Default: 0.7
     public var orbOpacity: Double
+    /// The duration of one animation cycle in seconds. Default: 8
     public var animationDuration: Double
+    /// The distance orbs move during animation. Default: 50
     public var animationRange: CGFloat
+    /// Whether animation is enabled. Default: true
     public var enableAnimation: Bool
+    /// The solid background color behind the orbs. Default: dark blue
     public var backgroundColor: Color
     
     public init(
@@ -684,8 +982,10 @@ public struct MeshGradientConfiguration: Sendable {
         self.backgroundColor = backgroundColor
     }
     
+    /// Three orbs with balanced animation
     public static let `default` = MeshGradientConfiguration()
     
+    /// Two orbs for a cleaner look
     public static let minimal = MeshGradientConfiguration(
         orbCount: 2,
         orbSizes: [300, 250],
@@ -694,6 +994,7 @@ public struct MeshGradientConfiguration: Sendable {
         orbOpacity: 0.5
     )
     
+    /// Five orbs with dynamic movement
     public static let vibrant = MeshGradientConfiguration(
         orbCount: 5,
         orbSizes: [450, 400, 350, 300, 250],
@@ -703,9 +1004,34 @@ public struct MeshGradientConfiguration: Sendable {
         animationRange: 70
     )
     
+    /// No animation, fixed gradient
     public static let `static` = MeshGradientConfiguration(enableAnimation: false)
 }
 
+/// An animated mesh gradient background with multiple blended color orbs.
+///
+/// `MeshGradientBackground` creates stunning, modern backgrounds similar to macOS 15's
+/// mesh gradient system. Multiple colored orbs blend together and animate slowly
+/// to create a rich, dynamic backdrop for your UI.
+///
+/// ## Features
+/// - **Multiple Orbs**: Configurable number of color blobs
+/// - **Smooth Animation**: Gentle movement for a living feel
+/// - **Customizable Colors**: Use any colors from your palette
+/// - **Background Color**: Solid color behind the gradient
+/// - **Performance Optimized**: Efficient blur and animation
+///
+/// ## Example
+/// ```swift
+/// ZStack {
+///     MeshGradientBackground(colors: [.purple, .blue, .cyan])
+///     
+///     VStack {
+///         Text("Welcome")
+///             .font(.largeTitle)
+///     }
+/// }
+/// ```
 public struct MeshGradientBackground: View {
     private let colors: [Color]
     private let configuration: MeshGradientConfiguration

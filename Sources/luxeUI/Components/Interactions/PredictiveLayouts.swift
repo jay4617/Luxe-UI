@@ -2,20 +2,66 @@ import SwiftUI
 
 // MARK: - Predictive Layout Configuration
 
+/// Configuration options for probability-based adaptive UI layouts.
+///
+/// `PredictiveLayoutConfiguration` controls how UI elements respond to
+/// probability values, enabling interfaces that adapt based on predicted
+/// user actions or AI-driven relevance scores.
+///
+/// ## Overview
+/// Predictive layouts make elements more prominent as their action probability
+/// increases. Higher probability elements become:
+/// - More opaque (fade in)
+/// - Larger (scale up)
+/// - More elevated (stronger shadow)
+/// - Glowing (optional highlight effect)
+///
+/// ## Use Cases
+/// - **AI-Driven UI**: Highlight recommended actions
+/// - **Form Optimization**: Emphasize likely next fields
+/// - **Smart Lists**: Surface relevant items
+/// - **Contextual Actions**: Promote timely buttons
+///
+/// ## Presets
+/// - `default`: Balanced effect with all features
+/// - `subtle`: Minimal scale and glow changes
+/// - `prominent`: Strong visual differentiation
+/// - `noAnimation`: Instant transitions, no effects
+///
+/// ## Example
+/// ```swift
+/// LuxeAdaptiveContainer(probability: 0.8) {
+///     Text("Recommended Action")
+/// }
+/// ```
 public struct PredictiveLayoutConfiguration: Sendable {
+    /// Base opacity when probability is 0. Default: 0.7
     public var baseOpacity: Double
+    /// Full opacity when probability is 1. Default: 1.0
     public var activeOpacity: Double
+    /// Base scale when probability is 0. Default: 1.0
     public var baseScale: CGFloat
+    /// Full scale when probability is 1. Default: 1.05
     public var activeScale: CGFloat
+    /// Base shadow radius when probability is 0. Default: 5
     public var baseShadowRadius: CGFloat
+    /// Full shadow radius when probability is 1. Default: 20
     public var activeShadowRadius: CGFloat
+    /// Color of the glow effect. Default: .blue
     public var glowColor: Color
+    /// Opacity of the glow effect. Default: 0.3
     public var glowOpacity: Double
+    /// Spring animation response speed. Default: 0.3
     public var animationResponse: Double
+    /// Spring damping ratio. Default: 0.7
     public var animationDamping: Double
+    /// Threshold above which glow activates. Default: 0.5
     public var probabilityThreshold: Double
+    /// Whether to show glow effect. Default: true
     public var enableGlow: Bool
+    /// Whether to enable scale animation. Default: true
     public var enableScale: Bool
+    /// Whether to enable shadow/elevation. Default: true
     public var enableElevation: Bool
     
     public init(
@@ -50,20 +96,24 @@ public struct PredictiveLayoutConfiguration: Sendable {
         self.enableElevation = enableElevation
     }
     
+    /// Default balanced configuration with all effects.
     public static let `default` = PredictiveLayoutConfiguration()
     
+    /// Subtle configuration with minimal visual changes.
     public static let subtle = PredictiveLayoutConfiguration(
         activeScale: 1.02,
         activeShadowRadius: 10,
         glowOpacity: 0.2
     )
     
+    /// Prominent configuration with strong differentiation.
     public static let prominent = PredictiveLayoutConfiguration(
         activeScale: 1.08,
         activeShadowRadius: 30,
         glowOpacity: 0.5
     )
     
+    /// No animation configuration for instant transitions.
     public static let noAnimation = PredictiveLayoutConfiguration(
         enableGlow: false,
         enableScale: false,
@@ -73,6 +123,33 @@ public struct PredictiveLayoutConfiguration: Sendable {
 
 // MARK: - Adaptive Container
 
+/// A container that adapts its appearance based on a probability value.
+///
+/// `LuxeAdaptiveContainer` wraps content and adjusts opacity, scale, and
+/// glow effects based on a probability score (0.0 to 1.0).
+///
+/// ## Features
+/// - **Interpolated Opacity**: Fades from base to active opacity
+/// - **Interpolated Scale**: Grows as probability increases
+/// - **Dynamic Shadow**: Elevation increases with probability
+/// - **Glow Effect**: Activates above the threshold
+/// - **Smooth Animation**: Spring-based transitions
+///
+/// ## Example
+/// ```swift
+/// // AI-recommended action
+/// LuxeAdaptiveContainer(probability: recommendation.score) {
+///     Button("Buy Now") { purchase() }
+/// }
+///
+/// // With custom configuration
+/// LuxeAdaptiveContainer(
+///     probability: relevance,
+///     configuration: .prominent
+/// ) {
+///     ProductCard(item)
+/// }
+/// ```
 public struct LuxeAdaptiveContainer<Content: View>: View {
     private let content: Content
     private let probability: Double
@@ -136,20 +213,61 @@ public struct LuxeAdaptiveContainer<Content: View>: View {
 
 // MARK: - Smart Form Button Configuration
 
+/// Configuration options for the smart form button that adapts to form completion.
+///
+/// `SmartFormButtonConfiguration` controls how the submit button grows and
+/// changes color as the form completion probability increases.
+///
+/// ## Overview
+/// Smart form buttons visually indicate form readiness:
+/// - **Size**: Button grows as more fields are completed
+/// - **Color**: Transitions from gray to vibrant as form fills
+/// - **Shadow**: Glow intensifies at high completion
+/// - **Haptics**: Feedback when crossing completion threshold
+///
+/// ## Presets
+/// - `default`: Balanced size range and animation
+/// - `compact`: Smaller button for tight layouts
+/// - `large`: Bigger button for prominent CTAs
+///
+/// ## Example
+/// ```swift
+/// SmartFormButton(
+///     "Submit",
+///     completionProbability: formProgress,
+///     configuration: .large
+/// ) {
+///     submitForm()
+/// }
+/// ```
 public struct SmartFormButtonConfiguration: Sendable {
+    /// Minimum button width when probability is 0. Default: 120
     public var minWidth: CGFloat
+    /// Maximum button width when probability is 1. Default: 280
     public var maxWidth: CGFloat
+    /// Minimum button height when probability is 0. Default: 44
     public var minHeight: CGFloat
+    /// Maximum button height when probability is 1. Default: 56
     public var maxHeight: CGFloat
+    /// The corner radius of the button. Default: 14
     public var cornerRadius: CGFloat
+    /// The font size for the button text. Default: 16
     public var fontSize: CGFloat
+    /// The font weight for the button text. Default: .semibold
     public var fontWeight: Font.Weight
+    /// Gradient colors when form is incomplete. Default: grays
     public var inactiveColors: [Color]
+    /// Gradient colors when form is complete. Default: [.green, .cyan]
     public var activeColors: [Color]
+    /// Shadow radius at full completion. Default: 20
     public var shadowRadius: CGFloat
+    /// Spring animation response speed. Default: 0.4
     public var animationResponse: Double
+    /// Spring damping ratio. Default: 0.7
     public var animationDamping: Double
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
+    /// Probability threshold for haptic trigger. Default: 0.5
     public var hapticThreshold: Double
     
     public init(
@@ -184,8 +302,10 @@ public struct SmartFormButtonConfiguration: Sendable {
         self.hapticThreshold = hapticThreshold
     }
     
+    /// Default balanced configuration.
     public static let `default` = SmartFormButtonConfiguration()
     
+    /// Compact configuration for tight layouts.
     public static let compact = SmartFormButtonConfiguration(
         minWidth: 100,
         maxWidth: 200,
@@ -193,6 +313,7 @@ public struct SmartFormButtonConfiguration: Sendable {
         maxHeight: 48
     )
     
+    /// Large configuration for prominent call-to-action.
     public static let large = SmartFormButtonConfiguration(
         minWidth: 150,
         maxWidth: 350,
@@ -204,6 +325,36 @@ public struct SmartFormButtonConfiguration: Sendable {
 
 // MARK: - Smart Form Button
 
+/// A submit button that grows and changes color based on form completion.
+///
+/// `SmartFormButton` provides visual feedback about form readiness by
+/// adapting its size, color, and effects based on a completion probability.
+///
+/// ## Features
+/// - **Dynamic Size**: Button grows as more fields are completed
+/// - **Color Transition**: Shifts from gray (incomplete) to vibrant (complete)
+/// - **Glow Effect**: Adds shadow glow at high completion
+/// - **Haptic Feedback**: Triggers when crossing completion threshold
+/// - **Spring Animation**: Smooth transitions between states
+///
+/// ## Example
+/// ```swift
+/// @State var name = ""
+/// @State var email = ""
+///
+/// var completeness: Double {
+///     (name.isEmpty ? 0 : 0.5) + (email.isEmpty ? 0 : 0.5)
+/// }
+///
+/// VStack {
+///     TextField("Name", text: $name)
+///     TextField("Email", text: $email)
+///     
+///     SmartFormButton("Submit", completionProbability: completeness) {
+///         submitForm()
+///     }
+/// }
+/// ```
 public struct SmartFormButton: View {
     private let title: String
     private let completionProbability: Double
@@ -327,17 +478,44 @@ public struct SmartFormButton: View {
 
 // MARK: - Predictive List Item Configuration
 
+/// Configuration options for probability-based list items.
+///
+/// `PredictiveListItemConfiguration` controls how list items adapt their
+/// appearance based on relevance or recommendation probability.
+///
+/// ## Presets
+/// - `default`: Balanced visual differentiation
+/// - `subtle`: Minimal changes for understated effect
+/// - `prominent`: Strong differentiation for important items
+///
+/// ## Example
+/// ```swift
+/// PredictiveListItem(probability: item.relevance, configuration: .prominent) {
+///     Text(item.title)
+/// }
+/// ```
 public struct PredictiveListItemConfiguration: Sendable {
+    /// Base opacity when probability is 0. Default: 0.6
     public var baseOpacity: Double
+    /// Full opacity when probability is 1. Default: 1.0
     public var activeOpacity: Double
+    /// Base scale when probability is 0. Default: 0.98
     public var baseScale: CGFloat
+    /// Full scale when probability is 1. Default: 1.0
     public var activeScale: CGFloat
+    /// Base leading padding. Default: 0
     public var leadingPadding: CGFloat
+    /// Leading padding at full probability (indent effect). Default: 8
     public var activeLeadingPadding: CGFloat
+    /// Color of the glow effect. Default: .blue
     public var glowColor: Color
+    /// Opacity of the glow effect. Default: 0.2
     public var glowOpacity: Double
+    /// Shadow radius for glow effect. Default: 10
     public var shadowRadius: CGFloat
+    /// Spring animation response speed. Default: 0.3
     public var animationResponse: Double
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
     
     public init(
@@ -366,14 +544,17 @@ public struct PredictiveListItemConfiguration: Sendable {
         self.enableHaptics = enableHaptics
     }
     
+    /// Default balanced configuration.
     public static let `default` = PredictiveListItemConfiguration()
     
+    /// Subtle configuration with minimal visual changes.
     public static let subtle = PredictiveListItemConfiguration(
         baseOpacity: 0.8,
         activeScale: 1.0,
         activeLeadingPadding: 4
     )
     
+    /// Prominent configuration with strong differentiation.
     public static let prominent = PredictiveListItemConfiguration(
         baseOpacity: 0.5,
         activeScale: 1.02,
@@ -384,6 +565,30 @@ public struct PredictiveListItemConfiguration: Sendable {
 
 // MARK: - Predictive List Item
 
+/// A list item that adapts its appearance based on relevance probability.
+///
+/// `PredictiveListItem` wraps content and adjusts opacity, scale, padding,
+/// and glow based on a probability score to surface relevant items.
+///
+/// ## Features
+/// - **Opacity Adaptation**: More relevant items are more visible
+/// - **Scale Effect**: Subtle size increase for high-probability items
+/// - **Indent Effect**: Higher probability items shift right slightly
+/// - **Glow Effect**: Highlights above threshold probability
+/// - **Spring Animation**: Smooth transitions as probabilities change
+///
+/// ## Example
+/// ```swift
+/// ForEach(searchResults) { result in
+///     PredictiveListItem(probability: result.relevance) {
+///         HStack {
+///             Image(systemName: result.icon)
+///             Text(result.title)
+///         }
+///     }
+///     .glowColor(.purple)
+/// }
+/// ```
 public struct PredictiveListItem<Content: View>: View {
     private let content: Content
     private let probability: Double
@@ -438,8 +643,40 @@ public struct PredictiveListItem<Content: View>: View {
 
 // MARK: - Intent Calculator
 
+/// Utility struct for calculating user intent probabilities.
+///
+/// `IntentCalculator` provides static methods to compute probability values
+/// for various user actions, useful for driving predictive UI components.
+///
+/// ## Overview
+/// Use these calculators to determine probability values for:
+/// - Form completion status
+/// - Hover intent (time on target)
+/// - Scroll position proximity
+/// - Click intent (mouse approach)
+/// - Item selection likelihood
+///
+/// ## Example
+/// ```swift
+/// // Calculate form progress
+/// let probability = IntentCalculator.formCompletionProbability(
+///     filledFields: 3,
+///     totalFields: 5,
+///     isValid: true
+/// )
+///
+/// SmartFormButton("Submit", completionProbability: probability) {
+///     submit()
+/// }
+/// ```
 public struct IntentCalculator {
-    /// Calculate form completion probability based on filled fields
+    /// Calculate form completion probability based on filled fields.
+    ///
+    /// - Parameters:
+    ///   - filledFields: Number of fields with content
+    ///   - totalFields: Total number of form fields
+    ///   - isValid: Whether current input is valid (adds bonus)
+    /// - Returns: Probability from 0.0 to 1.0
     public static func formCompletionProbability(
         filledFields: Int,
         totalFields: Int,
@@ -451,7 +688,12 @@ public struct IntentCalculator {
         return min(fillRatio + validityBonus, 1.0)
     }
     
-    /// Calculate hover intent based on duration
+    /// Calculate hover intent based on time spent hovering.
+    ///
+    /// - Parameters:
+    ///   - duration: How long the user has been hovering
+    ///   - maxDuration: Duration at which probability reaches 1.0
+    /// - Returns: Probability from 0.0 to 1.0
     public static func hoverIntentProbability(
         duration: TimeInterval,
         maxDuration: TimeInterval = 2.0
@@ -459,7 +701,13 @@ public struct IntentCalculator {
         min(duration / maxDuration, 1.0)
     }
     
-    /// Calculate scroll intent based on position
+    /// Calculate scroll intent based on proximity to target.
+    ///
+    /// - Parameters:
+    ///   - currentPosition: Current scroll Y position
+    ///   - targetPosition: Target element Y position
+    ///   - viewportHeight: Height of the visible viewport
+    /// - Returns: Probability from 0.0 to 1.0
     public static func scrollIntentProbability(
         currentPosition: CGFloat,
         targetPosition: CGFloat,
@@ -470,7 +718,13 @@ public struct IntentCalculator {
         return max(0, 1 - normalizedDistance)
     }
     
-    /// Calculate click probability based on mouse movement patterns
+    /// Calculate click intent based on mouse movement toward target.
+    ///
+    /// - Parameters:
+    ///   - approachVelocity: Speed of mouse movement toward target
+    ///   - distanceToTarget: Current distance from target center
+    ///   - maxDistance: Distance at which probability is 0
+    /// - Returns: Probability from 0.0 to 1.0
     public static func clickIntentProbability(
         approachVelocity: CGFloat,
         distanceToTarget: CGFloat,
@@ -481,7 +735,14 @@ public struct IntentCalculator {
         return distanceFactor * (0.7 + velocityFactor * 0.3)
     }
     
-    /// Calculate selection probability based on context
+    /// Calculate selection probability for an item in a list.
+    ///
+    /// - Parameters:
+    ///   - itemIndex: Index of the item to calculate
+    ///   - totalItems: Total number of items in the list
+    ///   - recentSelections: Indices of recently selected items
+    ///   - weights: Custom probability weights by index
+    /// - Returns: Probability from 0.0 to 1.0
     public static func selectionProbability(
         itemIndex: Int,
         totalItems: Int,

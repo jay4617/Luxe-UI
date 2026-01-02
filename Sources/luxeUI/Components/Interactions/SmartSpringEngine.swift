@@ -2,16 +2,51 @@ import SwiftUI
 
 // MARK: - Smart Spring Configuration
 
+/// Configuration options for velocity-aware spring physics interactions.
+///
+/// `SmartSpringConfiguration` controls how draggable elements respond to user
+/// gestures with intelligent spring physics that adapt to drag velocity.
+///
+/// ## Overview
+/// The smart spring engine provides:
+/// - **Velocity-Aware Response**: Faster drags increase sensitivity
+/// - **Optional Rotation**: Elements can tilt based on drag direction
+/// - **Constrained Motion**: Maximum offset and rotation limits
+/// - **Haptic Feedback**: Tactile response at velocity thresholds
+/// - **Tunable Physics**: Control response speed and damping
+///
+/// ## Presets
+/// - `default`: Balanced physics for general use
+/// - `bouncy`: More playful with higher sensitivity and lower damping
+/// - `stiff`: Controlled motion with less bounce
+/// - `wobbly`: Fun rotation effect with low damping
+/// - `subtle`: Minimal, understated movement
+///
+/// ## Example
+/// ```swift
+/// Image("card")
+///     .smartSpring(configuration: .bouncy)
+/// ```
 public struct SmartSpringConfiguration: Sendable {
+    /// Drag sensitivity multiplier (1.0 = normal). Default: 1.0
     public var sensitivity: Double
+    /// Whether the element rotates during drag. Default: false
     public var enableRotation: Bool
+    /// Rotation intensity multiplier. Default: 1.0
     public var rotationMultiplier: Double
+    /// Maximum drag offset in points. Default: 100
     public var maxOffset: CGFloat
+    /// Maximum rotation in degrees. Default: 15
     public var maxRotation: Double
+    /// Spring animation response speed. Default: 0.3
     public var responseSpeed: Double
+    /// Spring damping (0 = bouncy, 1 = no bounce). Default: 0.7
     public var dampingFraction: Double
+    /// Velocity threshold for haptic feedback. Default: 500
     public var velocityThreshold: CGFloat
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
+    /// The intensity of haptic feedback. Default: .light
     public var hapticIntensity: TactileFeedback.Intensity
     
     public init(
@@ -39,20 +74,28 @@ public struct SmartSpringConfiguration: Sendable {
     }
     
     // Presets
+    
+    /// Default balanced physics for general use.
     public static let `default` = SmartSpringConfiguration()
     
+    /// Bouncy preset with higher sensitivity and lower damping.
+    /// Creates a playful, energetic feel.
     public static let bouncy = SmartSpringConfiguration(
         sensitivity: 1.5,
         responseSpeed: 0.4,
         dampingFraction: 0.5
     )
     
+    /// Stiff preset with controlled motion and minimal bounce.
+    /// Creates a precise, professional feel.
     public static let stiff = SmartSpringConfiguration(
         sensitivity: 0.5,
         responseSpeed: 0.2,
         dampingFraction: 0.9
     )
     
+    /// Wobbly preset with rotation enabled and low damping.
+    /// Creates a fun, organic feel.
     public static let wobbly = SmartSpringConfiguration(
         sensitivity: 1.2,
         enableRotation: true,
@@ -60,6 +103,8 @@ public struct SmartSpringConfiguration: Sendable {
         dampingFraction: 0.4
     )
     
+    /// Subtle preset with minimal, understated movement.
+    /// Ideal for professional interfaces.
     public static let subtle = SmartSpringConfiguration(
         sensitivity: 0.3,
         maxOffset: 30,
@@ -69,6 +114,28 @@ public struct SmartSpringConfiguration: Sendable {
 
 // MARK: - Smart Spring Modifier
 
+/// A view modifier that adds velocity-aware spring physics to drag gestures.
+///
+/// `SmartSpringModifier` makes views draggable with intelligent spring physics
+/// that adapt to the speed of the user's drag gesture.
+///
+/// ## Features
+/// - **Velocity Awareness**: Faster drags increase element responsiveness
+/// - **Spring Return**: Elements spring back to origin when released
+/// - **Optional Rotation**: Elements can tilt in the drag direction
+/// - **Haptic Feedback**: Tactile response when velocity exceeds threshold
+/// - **Constrained Motion**: Configurable maximum offset and rotation
+///
+/// ## Example
+/// ```swift
+/// // Using the modifier directly
+/// Image("card")
+///     .modifier(SmartSpringModifier(configuration: .bouncy))
+///
+/// // Using the convenience extension
+/// Image("card")
+///     .smartSpring(configuration: .wobbly)
+/// ```
 public struct SmartSpringModifier: ViewModifier {
     private let configuration: SmartSpringConfiguration
     
@@ -134,13 +201,40 @@ public struct SmartSpringModifier: ViewModifier {
 
 // MARK: - Magnetic Pull Configuration
 
+/// Configuration options for the magnetic pull hover effect.
+///
+/// `MagneticPullConfiguration` controls how elements respond when the cursor
+/// approaches, creating a magnetic attraction effect.
+///
+/// ## Overview
+/// The magnetic pull effect makes elements subtly move toward the cursor
+/// when it enters a defined radius, creating an engaging interactive feel.
+///
+/// ## Presets
+/// - `default`: Balanced magnetic attraction
+/// - `strong`: More pronounced pull with larger radius
+/// - `subtle`: Gentle, understated attraction
+/// - `wide`: Large detection radius with moderate strength
+///
+/// ## Example
+/// ```swift
+/// Button("Click Me") { }
+///     .magneticPull(configuration: .strong)
+/// ```
 public struct MagneticPullConfiguration: Sendable {
+    /// The detection radius around the element. Default: 100
     public var radius: CGFloat
+    /// The strength of the magnetic attraction (0-1). Default: 0.5
     public var strength: Double
+    /// Maximum offset the element can move. Default: 20
     public var maxOffset: CGFloat
+    /// Spring animation response speed. Default: 0.3
     public var responseSpeed: Double
+    /// Spring damping ratio. Default: 0.7
     public var dampingFraction: Double
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
+    /// Whether to trigger haptic when cursor enters radius. Default: true
     public var hapticOnEnter: Bool
     
     public init(
@@ -161,20 +255,24 @@ public struct MagneticPullConfiguration: Sendable {
         self.hapticOnEnter = hapticOnEnter
     }
     
+    /// Default balanced magnetic attraction.
     public static let `default` = MagneticPullConfiguration()
     
+    /// Strong attraction with larger radius and more offset.
     public static let strong = MagneticPullConfiguration(
         radius: 150,
         strength: 0.8,
         maxOffset: 30
     )
     
+    /// Subtle attraction with smaller radius and less offset.
     public static let subtle = MagneticPullConfiguration(
         radius: 80,
         strength: 0.3,
         maxOffset: 10
     )
     
+    /// Wide detection radius with moderate attraction.
     public static let wide = MagneticPullConfiguration(
         radius: 200,
         strength: 0.4,
@@ -184,6 +282,27 @@ public struct MagneticPullConfiguration: Sendable {
 
 // MARK: - Magnetic Pull Modifier
 
+/// A view modifier that creates a magnetic pull effect toward the cursor.
+///
+/// `MagneticPullModifier` makes elements subtly move toward the cursor
+/// when it enters a defined radius, creating an engaging hover interaction.
+///
+/// ## Features
+/// - **Proximity Detection**: Responds when cursor enters the defined radius
+/// - **Smooth Animation**: Spring-based movement toward the cursor
+/// - **Haptic Feedback**: Optional tactile feedback on entry
+/// - **Auto-Reset**: Returns to origin when cursor leaves
+///
+/// ## Example
+/// ```swift
+/// // Using the modifier directly
+/// Button("Magnetic") { }
+///     .modifier(MagneticPullModifier(configuration: .strong))
+///
+/// // Using the convenience extension
+/// Button("Magnetic") { }
+///     .magneticPull(configuration: .subtle)
+/// ```
 public struct MagneticPullModifier: ViewModifier {
     private let configuration: MagneticPullConfiguration
     
@@ -213,16 +332,42 @@ public struct MagneticPullModifier: ViewModifier {
 
 // MARK: - Smart Spring Button Configuration
 
+/// Configuration options for the smart spring button component.
+///
+/// `SmartSpringButtonConfiguration` controls the visual appearance and
+/// interaction behavior of buttons with spring-based press and hover effects.
+///
+/// ## Presets
+/// - `default`: Standard button with gradient and hover scale
+/// - `magnetic`: Larger with cyan/blue gradient and stronger hover
+/// - `compact`: Smaller sizing for tight spaces
+///
+/// ## Example
+/// ```swift
+/// SmartSpringButton("Submit", style: .magnetic) {
+///     submitForm()
+/// }
+/// ```
 public struct SmartSpringButtonConfiguration: Sendable {
+    /// The corner radius of the button. Default: 16
     public var cornerRadius: CGFloat
+    /// The internal padding around content. Default: 20
     public var padding: CGFloat
+    /// The shadow blur radius. Default: 15
     public var shadowRadius: CGFloat
+    /// Scale when pressed (< 1 shrinks). Default: 0.95
     public var pressScale: CGFloat
+    /// Scale when hovered (> 1 enlarges). Default: 1.05
     public var hoverScale: CGFloat
+    /// Background gradient colors. Default: [.purple, .pink]
     public var gradient: [Color]
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
+    /// The intensity of haptic feedback. Default: .medium
     public var hapticIntensity: TactileFeedback.Intensity
+    /// Spring animation response speed. Default: 0.3
     public var animationResponse: Double
+    /// Spring damping ratio. Default: 0.7
     public var animationDamping: Double
     
     public init(
@@ -249,8 +394,10 @@ public struct SmartSpringButtonConfiguration: Sendable {
         self.animationDamping = animationDamping
     }
     
+    /// Default style with purple/pink gradient.
     public static let `default` = SmartSpringButtonConfiguration()
     
+    /// Magnetic style with larger size and cyan/blue gradient.
     public static let magnetic = SmartSpringButtonConfiguration(
         cornerRadius: 20,
         padding: 24,
@@ -259,6 +406,7 @@ public struct SmartSpringButtonConfiguration: Sendable {
         gradient: [.cyan, .blue]
     )
     
+    /// Compact style for tight UI spaces.
     public static let compact = SmartSpringButtonConfiguration(
         cornerRadius: 12,
         padding: 14,
@@ -267,14 +415,45 @@ public struct SmartSpringButtonConfiguration: Sendable {
     )
 }
 
+/// Style options for the smart spring button.
 public enum SmartSpringButtonStyle: Sendable {
+    /// Standard button style.
     case standard
+    /// Magnetic button with enhanced hover effect.
     case magnetic
+    /// Custom configuration.
     case custom(SmartSpringButtonConfiguration)
 }
 
 // MARK: - Smart Spring Button
 
+/// A button with spring-based press and hover animations.
+///
+/// `SmartSpringButton` provides an interactive button that scales down when
+/// pressed and up when hovered, with smooth spring animations.
+///
+/// ## Features
+/// - **Press Animation**: Shrinks slightly when tapped
+/// - **Hover Animation**: Enlarges on hover (desktop/trackpad)
+/// - **Gradient Background**: Configurable multi-color gradient
+/// - **Haptic Feedback**: Tactile response on tap
+/// - **Custom Content**: Accepts any view as label
+///
+/// ## Example
+/// ```swift
+/// // With text label
+/// SmartSpringButton("Submit") {
+///     submitForm()
+/// }
+///
+/// // With custom label
+/// SmartSpringButton(style: .magnetic, action: { save() }) {
+///     HStack {
+///         Image(systemName: "checkmark")
+///         Text("Save")
+///     }
+/// }
+/// ```
 public struct SmartSpringButton<Label: View>: View {
     private let action: () -> Void
     private let label: Label

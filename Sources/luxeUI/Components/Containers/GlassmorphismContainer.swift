@@ -2,19 +2,58 @@ import SwiftUI
 
 // MARK: - Glassmorphism Configuration
 
+/// Configuration options for GlassmorphismContainer appearance.
+///
+/// `GlassmorphismConfiguration` provides control over the glassmorphic effect including
+/// blur, opacity, borders, and shadows. Use presets for quick styling or customize
+/// individual properties for precise control.
+///
+/// ## Overview
+/// Glassmorphism is a modern design trend featuring frosted glass-like elements with:
+/// - Background blur that shows content behind
+/// - Subtle gradients and borders
+/// - Layered depth with shadows
+///
+/// ## Presets
+/// - `default`: Balanced glass effect
+/// - `frosted`: Heavy blur, more opaque
+/// - `clear`: Lighter, more transparent
+/// - `dark`: Dark-tinted glass
+/// - `vibrant`: Higher contrast borders
+/// - `minimal`: No borders or inner shadows
+///
+/// ## Example
+/// ```swift
+/// GlassmorphismContainer(configuration: .frosted) {
+///     Text("Frosted Glass")
+/// }
+/// ```
 public struct GlassmorphismConfiguration: Sendable {
+    /// The blur radius for the glass effect. Default: 20
     public var blurRadius: CGFloat
+    /// The opacity of the background fill. Default: 0.3
     public var backgroundOpacity: Double
+    /// The corner radius of the container. Default: 20
     public var cornerRadius: CGFloat
+    /// The width of the border stroke. Default: 1
     public var borderWidth: CGFloat
+    /// The opacity of the border. Default: 0.2
     public var borderOpacity: Double
+    /// The gradient colors for the background overlay
     public var gradientColors: [Color]
+    /// The color of the drop shadow. Default: .black
     public var shadowColor: Color
+    /// The blur radius of the shadow. Default: 20
     public var shadowRadius: CGFloat
+    /// The horizontal offset of the shadow. Default: 0
     public var shadowX: CGFloat
+    /// The vertical offset of the shadow. Default: 10
     public var shadowY: CGFloat
+    /// The opacity of the inner shadow. Default: 0.1
     public var innerShadowOpacity: Double
+    /// Whether to show the inner shadow. Default: true
     public var enableInnerShadow: Bool
+    /// Whether to show the border. Default: true
     public var enableBorder: Bool
     
     public init(
@@ -86,6 +125,41 @@ public struct GlassmorphismConfiguration: Sendable {
 
 // MARK: - Glassmorphism Container
 
+/// A container view with a frosted glass effect background.
+///
+/// `GlassmorphismContainer` wraps content in a modern glassmorphic container with
+/// blur effects, gradient overlays, and subtle borders. The effect shows content
+/// behind the container while adding visual depth.
+///
+/// ## Features
+/// - **Blur Effect**: Uses SwiftUI's `.ultraThinMaterial` with additional blur
+/// - **Gradient Overlay**: Subtle gradient for depth and light simulation
+/// - **Border**: Gradient stroke for edge definition
+/// - **Inner Shadow**: Optional depth effect
+/// - **Drop Shadow**: Floating appearance with configurable shadow
+/// - **Hover Effect**: Slight scale animation on hover
+///
+/// ## Example
+/// ```swift
+/// GlassmorphismContainer {
+///     VStack {
+///         Text("Glass Card")
+///             .font(.headline)
+///         Text("With frosted effect")
+///             .font(.caption)
+///     }
+///     .padding()
+/// }
+/// .frame(width: 200, height: 150)
+/// ```
+///
+/// ## Presets
+/// Use configuration presets for quick styling:
+/// ```swift
+/// GlassmorphismContainer(configuration: .frosted) {
+///     // Content
+/// }
+/// ```
 public struct GlassmorphismContainer<Content: View>: View {
     private let content: Content
     private var configuration: GlassmorphismConfiguration
@@ -105,7 +179,7 @@ public struct GlassmorphismContainer<Content: View>: View {
         self.content = content()
     }
     
-    // Convenience initializer with common parameters
+    /// Convenience initializer with common parameters
     public init(
         blurRadius: CGFloat = 20,
         opacity: Double = 0.3,

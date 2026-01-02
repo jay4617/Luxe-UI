@@ -2,17 +2,50 @@ import SwiftUI
 
 // MARK: - Color Scheme
 
+/// A comprehensive color palette for LuxeUI theming.
+///
+/// `LuxeColorScheme` defines all the semantic colors used throughout the UI.
+/// Colors are organized by purpose: primary actions, backgrounds, text, and status indicators.
+///
+/// ## Overview
+/// The color scheme provides consistent colors for:
+/// - **Primary/Secondary/Accent**: Brand and action colors
+/// - **Background/Surface**: Container and layering colors
+/// - **Text**: Primary and secondary text colors
+/// - **Status**: Success, warning, error, and info indicators
+///
+/// ## Example
+/// ```swift
+/// let scheme = LuxeColorScheme(
+///     primary: .blue,
+///     secondary: .purple,
+///     accent: .cyan,
+///     success: .green,
+///     error: .red
+/// )
+/// ```
 public struct LuxeColorScheme: Sendable {
+    /// The primary brand color for main actions and highlights
     public var primary: Color
+    /// The secondary brand color for supporting elements
     public var secondary: Color
+    /// The accent color for emphasis and interactive elements
     public var accent: Color
+    /// The main background color for the app
     public var background: Color
+    /// The surface color for cards and elevated containers
     public var surface: Color
+    /// The primary text color
     public var text: Color
+    /// The secondary/muted text color
     public var textSecondary: Color
+    /// The color for success states and positive actions
     public var success: Color
+    /// The color for warnings and caution states
     public var warning: Color
+    /// The color for errors and destructive actions
     public var error: Color
+    /// The color for informational messages
     public var info: Color
     
     public init(
@@ -44,21 +77,56 @@ public struct LuxeColorScheme: Sendable {
 
 // MARK: - Typography
 
+/// Typography settings for consistent text styling across the UI.
+///
+/// `LuxeTypography` defines font sizes, weights, and line heights using a scale system.
+/// This ensures visual consistency and makes it easy to maintain a coherent type hierarchy.
+///
+/// ## Scale
+/// - **XS/S**: Captions, labels, metadata
+/// - **M**: Body text (default)
+/// - **L**: Emphasized body, subheadings
+/// - **XL/XXL**: Headings
+/// - **Display**: Hero text, large titles
+///
+/// ## Example
+/// ```swift
+/// let typography = LuxeTypography(
+///     fontSizeM: 16,
+///     fontSizeL: 18,
+///     fontSizeDisplay: 48
+/// )
+/// ```
 public struct LuxeTypography: Sendable {
+    /// Extra small font size for fine print. Default: 10
     public var fontSizeXS: CGFloat
+    /// Small font size for captions. Default: 12
     public var fontSizeS: CGFloat
+    /// Medium font size for body text. Default: 14
     public var fontSizeM: CGFloat
+    /// Large font size for emphasized text. Default: 16
     public var fontSizeL: CGFloat
+    /// Extra large font size for subheadings. Default: 20
     public var fontSizeXL: CGFloat
+    /// Double extra large font size for headings. Default: 24
     public var fontSizeXXL: CGFloat
+    /// Display font size for hero text. Default: 36
     public var fontSizeDisplay: CGFloat
+    /// Light font weight
     public var fontWeightLight: Font.Weight
+    /// Regular font weight
     public var fontWeightRegular: Font.Weight
+    /// Medium font weight
     public var fontWeightMedium: Font.Weight
+    /// Semibold font weight
     public var fontWeightSemibold: Font.Weight
+    /// Bold font weight
     public var fontWeightBold: Font.Weight
+    /// Tight line height multiplier. Default: 1.2
     public var lineHeightTight: CGFloat
+    /// Normal line height multiplier. Default: 1.5
     public var lineHeightNormal: CGFloat
+    /// Relaxed line height multiplier. Default: 1.8
     public var lineHeightRelaxed: CGFloat
     
     public init(
@@ -98,15 +166,48 @@ public struct LuxeTypography: Sendable {
 
 // MARK: - Spacing
 
+/// Consistent spacing values for padding, margins, and gaps.
+///
+/// `LuxeSpacing` provides a spacing scale that ensures visual rhythm and consistency
+/// across your UI. Use these values for padding, margins, stack spacing, and gaps.
+///
+/// ## Scale (Default Values)
+/// - **xxxs**: 2pt - Hairline spacing
+/// - **xxs**: 4pt - Tight spacing
+/// - **xs**: 8pt - Compact spacing
+/// - **s**: 12pt - Small spacing
+/// - **m**: 16pt - Medium spacing (common default)
+/// - **l**: 24pt - Large spacing
+/// - **xl**: 32pt - Extra large spacing
+/// - **xxl**: 48pt - Section spacing
+/// - **xxxl**: 64pt - Major section spacing
+///
+/// ## Example
+/// ```swift
+/// VStack(spacing: theme.spacing.m) {
+///     Text("Title")
+///     Text("Subtitle")
+/// }
+/// .padding(theme.spacing.l)
+/// ```
 public struct LuxeSpacing: Sendable {
+    /// Hairline spacing: 2pt
     public var xxxs: CGFloat
+    /// Tight spacing: 4pt
     public var xxs: CGFloat
+    /// Compact spacing: 8pt
     public var xs: CGFloat
+    /// Small spacing: 12pt
     public var s: CGFloat
+    /// Medium spacing: 16pt
     public var m: CGFloat
+    /// Large spacing: 24pt
     public var l: CGFloat
+    /// Extra large spacing: 32pt
     public var xl: CGFloat
+    /// Section spacing: 48pt
     public var xxl: CGFloat
+    /// Major section spacing: 64pt
     public var xxxl: CGFloat
     
     public init(
@@ -134,13 +235,38 @@ public struct LuxeSpacing: Sendable {
 
 // MARK: - Border Radius
 
+/// Corner radius values for consistent rounded corners across the UI.
+///
+/// `LuxeBorderRadius` provides a scale of corner radius values from sharp (none)
+/// to fully rounded (full/pill shape).
+///
+/// ## Scale
+/// - **none**: 0pt - Sharp corners
+/// - **xs**: 4pt - Subtle rounding
+/// - **s**: 8pt - Small rounding
+/// - **m**: 12pt - Medium rounding (common default)
+/// - **l**: 16pt - Large rounding
+/// - **xl**: 24pt - Extra large rounding
+/// - **full**: 9999pt - Pill/capsule shape
+///
+/// ## Example
+/// ```swift
+/// RoundedRectangle(cornerRadius: theme.borderRadius.m)
+/// ```
 public struct LuxeBorderRadius: Sendable {
+    /// Sharp corners: 0pt
     public var none: CGFloat
+    /// Subtle rounding: 4pt
     public var xs: CGFloat
+    /// Small rounding: 8pt
     public var s: CGFloat
+    /// Medium rounding: 12pt
     public var m: CGFloat
+    /// Large rounding: 16pt
     public var l: CGFloat
+    /// Extra large rounding: 24pt
     public var xl: CGFloat
+    /// Pill/capsule shape: 9999pt
     public var full: CGFloat
     
     public init(
@@ -164,19 +290,54 @@ public struct LuxeBorderRadius: Sendable {
 
 // MARK: - Effects
 
+/// Visual effect values for shadows, blurs, glows, and animation timing.
+///
+/// `LuxeEffects` provides consistent values for visual effects that add depth
+/// and polish to your UI. Use these for drop shadows, blur effects, glows,
+/// and animation durations.
+///
+/// ## Shadow Scale
+/// - **Small**: 4pt - Subtle elevation
+/// - **Medium**: 8pt - Standard cards
+/// - **Large**: 16pt - Prominent elements
+/// - **XL**: 32pt - Floating elements
+///
+/// ## Animation Timing
+/// - **Fast**: 0.15s - Micro-interactions
+/// - **Normal**: 0.3s - Standard transitions
+/// - **Slow**: 0.5s - Emphasis animations
+///
+/// ## Example
+/// ```swift
+/// .shadow(radius: theme.effects.shadowMedium)
+/// .animation(.easeOut(duration: theme.effects.animationNormal))
+/// ```
 public struct LuxeEffects: Sendable {
+    /// Small shadow radius: 4pt
     public var shadowSmall: CGFloat
+    /// Medium shadow radius: 8pt
     public var shadowMedium: CGFloat
+    /// Large shadow radius: 16pt
     public var shadowLarge: CGFloat
+    /// Extra large shadow radius: 32pt
     public var shadowXL: CGFloat
+    /// Small blur radius: 8pt
     public var blurSmall: CGFloat
+    /// Medium blur radius: 16pt
     public var blurMedium: CGFloat
+    /// Large blur radius: 32pt
     public var blurLarge: CGFloat
+    /// Small glow radius: 4pt
     public var glowSmall: CGFloat
+    /// Medium glow radius: 8pt
     public var glowMedium: CGFloat
+    /// Large glow radius: 16pt
     public var glowLarge: CGFloat
+    /// Fast animation duration: 0.15s
     public var animationFast: Double
+    /// Normal animation duration: 0.3s
     public var animationNormal: Double
+    /// Slow animation duration: 0.5s
     public var animationSlow: Double
     
     public init(
@@ -212,32 +373,97 @@ public struct LuxeEffects: Sendable {
 
 // MARK: - Theme
 
+/// The central theme configuration for LuxeUI components.
+///
+/// `Theme` is the main configuration object that controls the visual appearance of all
+/// LuxeUI components. Apply a theme at your app's root level using `.luxeTheme()` and
+/// all child components will automatically adopt its styling.
+///
+/// ## Overview
+/// Theme provides:
+/// - **Colors**: Primary, secondary, accent, background, surface, and text colors
+/// - **Typography**: Font sizes and weights via `LuxeTypography`
+/// - **Spacing**: Consistent spacing values via `LuxeSpacing`
+/// - **Border Radius**: Corner rounding values via `LuxeBorderRadius`
+/// - **Effects**: Shadows, blurs, and animation timing via `LuxeEffects`
+///
+/// ## Preset Themes
+/// - `default`: Blue/purple with dark background
+/// - `midnight`: Deep purple with very dark background
+/// - `sunset`: Warm orange/red tones
+/// - `ocean`: Cool blue/teal tones
+/// - `forest`: Natural green tones
+/// - `neon`: Vibrant pink/cyan for bold designs
+/// - `monochrome`: Black, white, and gray
+/// - `light`: Light mode with white background
+///
+/// ## Example
+/// ```swift
+/// // Using a preset theme
+/// ContentView()
+///     .luxeTheme(.midnight)
+///
+/// // Creating a custom theme
+/// let custom = Theme(
+///     primaryColor: .orange,
+///     secondaryColor: .red,
+///     cornerRadius: 20
+/// )
+/// ContentView()
+///     .luxeTheme(custom)
+///
+/// // Using builder pattern
+/// let modified = Theme.default
+///     .withPrimaryColor(.green)
+///     .withHaptics(false)
+/// ```
 public struct Theme: Sendable {
     // Color tokens
+    /// The primary brand color for main actions and highlights
     public var primaryColor: Color
+    /// The secondary brand color for supporting elements
     public var secondaryColor: Color
+    /// The accent color for emphasis
     public var accentColor: Color
+    /// The main background color
     public var backgroundColor: Color
+    /// The surface color for cards and containers
     public var surfaceColor: Color
+    /// The primary text color
     public var textColor: Color
+    /// The secondary/muted text color
     public var textSecondaryColor: Color
     
     // Design system
+    /// Complete color scheme with semantic colors
     public var colors: LuxeColorScheme
+    /// Typography settings for text styling
     public var typography: LuxeTypography
+    /// Spacing scale for consistent layout
     public var spacing: LuxeSpacing
+    /// Border radius scale for corners
     public var borderRadius: LuxeBorderRadius
+    /// Effect values for shadows, blurs, and animations
     public var effects: LuxeEffects
     
     // Legacy support
+    /// Body text font size. Default: 16
     public var fontSizeBody: CGFloat
+    /// Headline font size. Default: 24
     public var fontSizeHeadline: CGFloat
+    /// Default corner radius. Default: 16
     public var cornerRadius: CGFloat
+    /// Small spacing value. Default: 8
     public var spacingS: CGFloat
+    /// Medium spacing value. Default: 16
     public var spacingM: CGFloat
+    /// Large spacing value. Default: 24
     public var spacingL: CGFloat
+    /// Default shadow radius. Default: 10
     public var shadowRadius: CGFloat
+    /// Default animation duration. Default: 0.3
     public var animationDuration: Double
+    /// Whether haptic feedback is enabled. Default: true
     public var enableHaptics: Bool
     
     public init(

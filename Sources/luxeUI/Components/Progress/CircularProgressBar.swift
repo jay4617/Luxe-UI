@@ -2,22 +2,67 @@ import SwiftUI
 
 // MARK: - Circular Progress Configuration
 
+/// Configuration options for the circular progress bar component.
+///
+/// `CircularProgressConfiguration` controls the appearance and behavior of
+/// the circular progress indicator, including size, colors, animation, and glow effects.
+///
+/// ## Overview
+/// Customize every aspect of the progress bar:
+/// - **Size & Width**: Control overall dimensions and stroke thickness
+/// - **Colors**: Single color or gradient progress arcs
+/// - **Percentage Display**: Optional centered percentage text
+/// - **Glow Effect**: Neon-like glow around the progress arc
+/// - **Animation**: Smooth animated progress updates
+///
+/// ## Size Presets
+/// - `small`: 50pt, compact for inline use
+/// - `medium`: 80pt, balanced for most use cases
+/// - `large`: 120pt, prominent display
+/// - `extraLarge`: 160pt, hero-level display
+///
+/// ## Style Presets
+/// - `default`: Gradient with glow effect
+/// - `flat`: Solid color, no glow
+/// - `neon`: Cyan/blue with strong glow
+/// - `subtle`: Minimal track, no glow
+///
+/// ## Example
+/// ```swift
+/// CircularProgressBar(progress: 0.75, configuration: .neon)
+/// ```
 public struct CircularProgressConfiguration: Sendable {
+    /// The overall diameter of the progress bar. Default: 100
     public var size: CGFloat
+    /// The thickness of the progress stroke. Default: 10
     public var lineWidth: CGFloat
+    /// The cap style for stroke ends (.round or .butt). Default: .round
     public var lineCap: CGLineCap
+    /// The color of the background track. Default: .gray
     public var trackColor: Color
+    /// The opacity of the background track. Default: 0.2
     public var trackOpacity: Double
+    /// Colors for the progress arc (used as gradient if multiple). Default: [.blue, .purple]
     public var progressColors: [Color]
+    /// Whether to use gradient coloring. Default: true
     public var useGradient: Bool
+    /// Whether to show the percentage text in center. Default: true
     public var showPercentage: Bool
+    /// Font size for the percentage text. Default: 24
     public var percentageFontSize: CGFloat
+    /// Font weight for the percentage text. Default: .bold
     public var percentageFontWeight: Font.Weight
+    /// Color of the percentage text. Default: .white
     public var percentageColor: Color
+    /// Duration of progress animation in seconds. Default: 0.5
     public var animationDuration: Double
+    /// Whether to show glow effect around progress. Default: true
     public var enableGlow: Bool
+    /// The blur radius of the glow effect. Default: 8
     public var glowRadius: CGFloat
+    /// The opacity of the glow effect. Default: 0.5
     public var glowOpacity: Double
+    /// Rotation offset in degrees (-90 starts at top). Default: -90
     public var rotationOffset: Double
     
     public init(
@@ -57,24 +102,29 @@ public struct CircularProgressConfiguration: Sendable {
     }
     
     // Size presets
+    
+    /// Small size (50pt) for compact inline use.
     public static let small = CircularProgressConfiguration(
         size: 50,
         lineWidth: 6,
         percentageFontSize: 12
     )
     
+    /// Medium size (80pt) for balanced display.
     public static let medium = CircularProgressConfiguration(
         size: 80,
         lineWidth: 8,
         percentageFontSize: 18
     )
     
+    /// Large size (120pt) for prominent display.
     public static let large = CircularProgressConfiguration(
         size: 120,
         lineWidth: 12,
         percentageFontSize: 28
     )
     
+    /// Extra large size (160pt) for hero-level display.
     public static let extraLarge = CircularProgressConfiguration(
         size: 160,
         lineWidth: 14,
@@ -82,19 +132,24 @@ public struct CircularProgressConfiguration: Sendable {
     )
     
     // Style presets
+    
+    /// Default style with gradient and glow.
     public static let `default` = CircularProgressConfiguration()
     
+    /// Flat style without gradient or glow effects.
     public static let flat = CircularProgressConfiguration(
         useGradient: false,
         enableGlow: false
     )
     
+    /// Neon style with cyan/blue colors and strong glow.
     public static let neon = CircularProgressConfiguration(
         progressColors: [.cyan, .blue],
         glowRadius: 15,
         glowOpacity: 0.8
     )
     
+    /// Subtle style with minimal track visibility.
     public static let subtle = CircularProgressConfiguration(
         trackOpacity: 0.1,
         enableGlow: false
@@ -103,6 +158,51 @@ public struct CircularProgressConfiguration: Sendable {
 
 // MARK: - Circular Progress Bar
 
+/// An animated circular progress indicator with gradient and glow effects.
+///
+/// `CircularProgressBar` displays progress as an arc around a circle, with
+/// optional percentage text in the center and various visual effects.
+///
+/// ## Features
+/// - **Gradient Progress**: Multi-color gradient arcs
+/// - **Glow Effect**: Neon-like glow around the progress arc
+/// - **Percentage Display**: Optional centered progress percentage
+/// - **Smooth Animation**: Animated progress changes
+/// - **Size Presets**: Small to extra-large convenience initializers
+/// - **Theme Integration**: Uses theme colors when available
+/// - **Callbacks**: Progress change and completion handlers
+///
+/// ## Example
+/// ```swift
+/// // Basic usage
+/// CircularProgressBar(progress: 0.75)
+///
+/// // With configuration
+/// CircularProgressBar(progress: 0.5, configuration: .neon)
+///
+/// // Convenience parameters
+/// CircularProgressBar(
+///     progress: 0.65,
+///     showPercentage: true,
+///     gradient: true,
+///     size: 120,
+///     colors: [.green, .mint]
+/// )
+///
+/// // Static size helpers
+/// CircularProgressBar.large(progress: 0.8, colors: [.orange, .red])
+/// ```
+///
+/// ## Callbacks
+/// ```swift
+/// CircularProgressBar(progress: value)
+///     .onProgressChange { newValue in
+///         print("Progress: \(newValue)")
+///     }
+///     .onComplete {
+///         print("Reached 100%!")
+///     }
+/// ```
 public struct CircularProgressBar: View {
     private let progress: Double
     private var configuration: CircularProgressConfiguration
