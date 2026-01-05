@@ -11,11 +11,23 @@ let package = Package(
     ],
     products: [
         .library(name: "LuxeUI", targets: ["LuxeUI"]),
+        .executable(name: "CoreComponentsDemo", targets: ["CoreComponentsDemo"]),
+        .executable(name: "LiquidUIDemo", targets: ["LiquidUIDemo"]),
     ],
     targets: [
         .target(
             name: "LuxeUI",
             dependencies: []
+        ),
+        .executableTarget(
+            name: "CoreComponentsDemo",
+            dependencies: ["LuxeUI"],
+            path: "Examples/CoreComponentsDemo"
+        ),
+        .executableTarget(
+            name: "LiquidUIDemo",
+            dependencies: ["LuxeUI"],
+            path: "Examples/LiquidUIDemo"
         ),
         .testTarget(
             name: "LuxeUITests",

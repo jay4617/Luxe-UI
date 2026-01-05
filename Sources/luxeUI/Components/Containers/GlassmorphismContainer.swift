@@ -58,16 +58,16 @@ public struct GlassmorphismConfiguration: Sendable {
     
     public init(
         blurRadius: CGFloat = 20,
-        backgroundOpacity: Double = 0.3,
+        backgroundOpacity: Double = 0.08,
         cornerRadius: CGFloat = 20,
         borderWidth: CGFloat = 1,
-        borderOpacity: Double = 0.2,
-        gradientColors: [Color] = [.white.opacity(0.3), .white.opacity(0.1)],
+        borderOpacity: Double = 0.4,
+        gradientColors: [Color] = [.white.opacity(0.15), .white.opacity(0.03)],
         shadowColor: Color = .black,
         shadowRadius: CGFloat = 20,
         shadowX: CGFloat = 0,
         shadowY: CGFloat = 10,
-        innerShadowOpacity: Double = 0.1,
+        innerShadowOpacity: Double = 0.08,
         enableInnerShadow: Bool = true,
         enableBorder: Bool = true
     ) {
@@ -91,28 +91,30 @@ public struct GlassmorphismConfiguration: Sendable {
     
     public static let frosted = GlassmorphismConfiguration(
         blurRadius: 30,
-        backgroundOpacity: 0.4,
-        borderOpacity: 0.3
+        backgroundOpacity: 0.1,
+        borderOpacity: 0.45,
+        gradientColors: [.white.opacity(0.12), .white.opacity(0.02)]
     )
     
     public static let clear = GlassmorphismConfiguration(
         blurRadius: 10,
-        backgroundOpacity: 0.15,
-        borderOpacity: 0.15
+        backgroundOpacity: 0.05,
+        borderOpacity: 0.25,
+        gradientColors: [.white.opacity(0.08), .white.opacity(0.01)]
     )
     
     public static let dark = GlassmorphismConfiguration(
         blurRadius: 25,
-        backgroundOpacity: 0.5,
-        gradientColors: [.black.opacity(0.3), .black.opacity(0.1)],
+        backgroundOpacity: 0.25,
+        gradientColors: [.black.opacity(0.2), .black.opacity(0.05)],
         shadowRadius: 30
     )
     
     public static let vibrant = GlassmorphismConfiguration(
         blurRadius: 15,
-        backgroundOpacity: 0.25,
-        borderOpacity: 0.4,
-        gradientColors: [.white.opacity(0.4), .white.opacity(0.2)]
+        backgroundOpacity: 0.12,
+        borderOpacity: 0.5,
+        gradientColors: [.white.opacity(0.18), .white.opacity(0.05)]
     )
     
     public static let minimal = GlassmorphismConfiguration(
@@ -198,11 +200,11 @@ public struct GlassmorphismContainer<Content: View>: View {
         content
             .background(
                 ZStack {
-                    // Blur background
+                    // Blur background with material
                     RoundedRectangle(cornerRadius: configuration.cornerRadius)
                         .fill(.ultraThinMaterial)
                     
-                    // Gradient overlay
+                    // Very subtle gradient overlay for depth (much more transparent)
                     RoundedRectangle(cornerRadius: configuration.cornerRadius)
                         .fill(
                             LinearGradient(
@@ -212,6 +214,7 @@ public struct GlassmorphismContainer<Content: View>: View {
                             )
                         )
                         .opacity(configuration.backgroundOpacity)
+                        .blendMode(.overlay)
                     
                     // Inner shadow for depth
                     if configuration.enableInnerShadow {
