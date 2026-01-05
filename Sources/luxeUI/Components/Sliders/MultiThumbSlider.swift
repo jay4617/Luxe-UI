@@ -462,41 +462,4 @@ private struct ThumbView: View {
     }
 }
 
-// MARK: - Single Thumb Slider
 
-public struct LuxeSlider: View {
-    @Binding private var value: Double
-    private let range: ClosedRange<Double>
-    private let step: Double
-    private var configuration: MultiThumbSliderConfiguration
-    
-    @State private var values: [Double] = []
-    
-    public init(
-        value: Binding<Double>,
-        range: ClosedRange<Double> = 0...100,
-        step: Double = 1,
-        configuration: MultiThumbSliderConfiguration = .default
-    ) {
-        self._value = value
-        self.range = range
-        self.step = step
-        self.configuration = configuration
-    }
-    
-    public var body: some View {
-        MultiThumbSlider(
-            values: Binding(
-                get: { [value] },
-                set: { newValues in
-                    if let first = newValues.first {
-                        value = first
-                    }
-                }
-            ),
-            range: range,
-            step: step,
-            configuration: configuration
-        )
-    }
-}
