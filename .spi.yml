@@ -1,0 +1,13 @@
+# Swift Package Index Configuration for LuxeUI
+version: 1
+
+builder:
+  configs:
+    # Build for iOS 16+
+    - platform: ios
+      scheme: LuxeUI
+      destination: "platform=iOS Simulator,name=iPhone 16 Pro"
+    
+    # Build for macOS 14+
+    - platform: macos
+      scheme: LuxeUI
