@@ -307,7 +307,7 @@ struct GlassmorphismConfigurationTests {
         let config = GlassmorphismConfiguration.default
         
         #expect(config.blurRadius == 20)
-        #expect(config.backgroundOpacity == 0.3)
+        #expect(config.backgroundOpacity == 0.08)
         #expect(config.cornerRadius == 20)
         #expect(config.borderWidth == 1)
         #expect(config.enableInnerShadow == true)
@@ -319,7 +319,7 @@ struct GlassmorphismConfigurationTests {
         let config = GlassmorphismConfiguration.frosted
         
         #expect(config.blurRadius == 30)
-        #expect(config.backgroundOpacity == 0.4)
+        #expect(config.backgroundOpacity == 0.1)
     }
     
     @Test("Clear preset")
@@ -327,7 +327,7 @@ struct GlassmorphismConfigurationTests {
         let config = GlassmorphismConfiguration.clear
         
         #expect(config.blurRadius == 10)
-        #expect(config.backgroundOpacity == 0.15)
+        #expect(config.backgroundOpacity == 0.05)
     }
     
     @Test("Minimal preset")
