@@ -41,7 +41,7 @@ jobs:
     - name: Build for ${{ matrix.platform }}
       run: |
         if [ "${{ matrix.platform }}" == "iOS" ]; then
-          xcodebuild -scheme LuxeUI -destination 'platform=iOS Simulator,name=iPhone 16 Pro' build
+          xcodebuild -scheme LuxeUI -destination 'platform=iOS Simulator,name=iPhone 15 Pro' build
         else
           swift build
         fi
